@@ -582,9 +582,6 @@ class WifiphisherEngine:
         if os.geteuid():
             sys.exit('[' + R + '-' + W + '] Please run as root')
 
-        if not args.internetinterface:
-            interfaces.toggle_networking(False)
-
         self.network_manager.start()
 
         # TODO: We should have more checks here:
@@ -595,6 +592,7 @@ class WifiphisherEngine:
         # to monitor mode. shutdown on any errors
         try:
             if self.internet_sharing_enabled():
+                self.network_manager.internet_access_enable = True
                 if self.network_manager.is_interface_valid(
                         args.internetinterface, "internet"):
                     internet_interface = args.internetinterface
